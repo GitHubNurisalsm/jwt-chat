@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Общий чат</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <span class="brand"><span class="brand-mark" aria-hidden="true">●</span> Общий чат</span>
+      <div class="session" id="session" hidden>
+        <span class="session-user" id="session-user"></span>
+        <button class="btn btn-ghost btn-sm" type="button" id="logout-btn">Выйти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <p class="banner" id="banner" role="status" aria-live="polite" hidden></p>
+
+    <section id="view-loading" class="view view-center">
+      <p class="muted">Проверяем сессию…</p>
+    </section>
+
+    <section id="view-auth" class="view auth" hidden aria-labelledby="auth-title">
+      <div class="auth-intro">
+        <p class="eyebrow">Групповой чат</p>
+        <h1 id="auth-title">Заходи поболтать</h1>
+        <p class="lede">Писать в чат могут только авторизованные пользователи. Войдите или создайте аккаунт за пару секунд.</p>
+      </div>
+
+      <div class="card auth-card">
+        <div class="tabs" role="tablist" aria-label="Вход или регистрация">
+          <button class="tab" type="button" role="tab" id="tab-login" aria-controls="login-form" aria-selected="true">Вход</button>
+          <button class="tab" type="button" role="tab" id="tab-register" aria-controls="register-form" aria-selected="false" tabindex="-1">Регистрация</button>
+        </div>
+
+        <form id="login-form" class="form" role="tabpanel" aria-labelledby="tab-login" novalidate>
+          <div class="field">
+            <label for="login-username">Имя пользователя</label>
+            <input id="login-username" name="username" autocomplete="username" required>
+            <p class="field-error" data-error-for="username"></p>
+          </div>
+          <div class="field">
+            <label for="login-password">Пароль</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+            <p class="field-error" data-error-for="password"></p>
+          </div>
+          <p class="form-error" data-form-error role="alert"></p>
+          <button class="btn btn-block" type="submit">Войти</button>
+        </form>
+
+        <form id="register-form" class="form" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
+          <div class="field">
+            <label for="reg-username">Имя пользователя</label>
+            <input id="reg-username" name="username" autocomplete="username" maxlength="150" required>
+            <p class="hint">Буквы, цифры и символы @ . + - _</p>
+            <p class="field-error" data-error-for="username"></p>
+          </div>
+          <div class="field">
+            <label for="reg-password">Пароль</label>
+            <input id="reg-password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+            <p class="hint">Минимум 6 символов</p>
+            <p class="field-error" data-error-for="password"></p>
+          </div>
+          <div class="field">
+            <label for="reg-password-confirm">Повторите пароль</label>
+            <input id="reg-password-confirm" name="passwordConfirm" type="password" autocomplete="new-password" required>
+            <p class="field-error" data-error-for="passwordConfirm"></p>
+          </div>
+          <p class="form-error" data-form-error role="alert"></p>
+          <button class="btn btn-block" type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-chat" class="view chat" hidden aria-labelledby="chat-title">
+      <div class="card chat-card">
+        <div class="chat-head">
+          <h1 class="chat-title" id="chat-title">Общая комната</h1>
+          <span class="status" id="chat-status" data-status="offline" role="status" aria-live="polite">Не подключено</span>
+        </div>
+
+        <div class="chat-log" id="chat-log" tabindex="0" aria-label="Сообщения чата">
+          <p class="chat-empty" id="chat-empty">Пока тихо. Напишите первым — сообщение увидят все, кто сейчас в чате.</p>
+          <ol class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions"></ol>
+        </div>
+
+        <div class="chat-alert" id="chat-alert" role="alert" hidden>
+          <span id="chat-alert-text"></span>
+          <button class="btn btn-ghost btn-sm" type="button" id="reconnect-btn">Переподключиться</button>
+        </div>
+
+        <form class="composer" id="composer" novalidate>
+          <label class="visually-hidden" for="composer-input">Сообщение</label>
+          <textarea id="composer-input" name="text" rows="1" maxlength="1000" placeholder="Сообщение… (Enter — отправить, Shift+Enter — новая строка)" autocomplete="off" disabled></textarea>
+          <button class="btn" type="submit" id="send-btn" disabled>Отправить</button>
+        </form>
+        <p class="composer-hint" id="composer-hint" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
